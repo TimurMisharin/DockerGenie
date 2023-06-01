@@ -29,7 +29,7 @@
         },
         "dockerfile-generator.openaiApiKey": {
           "type": "string",
-          "default": "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",
+          "default": "",
           "description": "The API key for OpenAI."
         }
       }
