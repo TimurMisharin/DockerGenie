@@ -1,0 +1,41 @@
+# Ignore dependencies and build output
+node_modules/
+out/
+
+# Ignore user-specific settings and workspace files
+.vscode/
+.settings/
+.code-workspace
+
+# Ignore debug logs and crash reports
+*.log
+*.crash
+
+# Ignore compiled JavaScript files (if applicable)
+*.js
+*.js.map
+
+# Ignore compiled TypeScript files (if applicable)
+*.tsbuildinfo
+
+# Ignore compiled CSS files (if applicable)
+*.css
+*.css.map
+
+# Ignore compiled HTML files (if applicable)
+*.html
+
+# Ignore temporary and backup files
+*~
+.DS_Store
+Thumbs.db
+
+# Ignore TypeScript definition files
+*.d.ts
+
+# Ignore TypeScript source maps
+*.js.map
+*.d.ts.map
+
+# Ignore TypeScript compiled output
+dist/

@@ -1,0 +1,65 @@
+{
+  "name": "dockerfile-generator",
+  "displayName": "DockerGenie",
+  "description": "An extension to auto-generate Dockerfiles by ChatGPT",
+  "version": "0.0.1",
+  "icon": "./src/images/icon.png",
+  "engines": {
+    "vscode": "^1.78.0"
+  },
+  "categories": [
+    "Other"
+  ],
+  "activationEvents": [],
+  "main": "./out/extension.js",
+  "contributes": {
+    "commands": [
+      {
+        "command": "dockerfile-generator.generateDockerfile",
+        "title": "Generate Dockerfile"
+      }
+    ],
+    "configuration": {
+      "title": "Dockerfile Generator",
+      "properties": {
+        "dockerfile-generator.chatGptVersion": {
+          "type": "string",
+          "default": "gpt-3.5-turbo",
+          "description": "Version of ChatGPT to use"
+        },
+        "dockerfile-generator.openaiApiKey": {
+          "type": "string",
+          "default": "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",
+          "description": "The API key for OpenAI."
+        }
+      }
+    }
+  },
+  "scripts": {
+    "vscode:prepublish": "npm run compile",
+    "compile": "tsc -p ./",
+    "watch": "tsc -watch -p ./",
+    "pretest": "npm run compile && npm run lint",
+    "lint": "eslint src --ext ts",
+    "test": "jest"
+  },
+  "devDependencies": {
+    "@types/glob": "^8.1.0",
+    "@types/jest": "^29.5.2",
+    "@types/mocha": "^10.0.1",
+    "@types/node": "16.x",
+    "@types/vscode": "^1.78.0",
+    "@typescript-eslint/eslint-plugin": "^5.59.1",
+    "@typescript-eslint/parser": "^5.59.1",
+    "@vscode/test-electron": "^2.3.0",
+    "eslint": "^8.39.0",
+    "glob": "^8.1.0",
+    "jest": "^29.5.0",
+    "mocha": "^10.2.0",
+    "ts-jest": "^29.1.0",
+    "typescript": "^5.0.4"
+  },
+  "dependencies": {
+    "axios": "^1.4.0"
+  }
+}
