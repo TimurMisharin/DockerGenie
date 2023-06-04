@@ -75,6 +75,11 @@ CMD ["gunicorn", "-b", "0.0.0.0:5000", "app:app"]
 
 We appreciate your contributions! Whether it's a bug report, new feature, correction, or additional documentation, we welcome your issues and pull requests.
 
+## Feedback & Contributing
+
+- If you find a bug or want a new feature, please [create an issue](https://github.com/TimurMisharin/DockerGenie/issues).
+- If you want to contribute, please feel free to [create a pull request](https://github.com/TimurMisharin/DockerGenie/pulls).
+
 ## License
 
 This project is licensed under the terms of the [MIT license](LICENSE).

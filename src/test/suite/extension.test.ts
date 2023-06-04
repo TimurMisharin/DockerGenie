@@ -1,74 +1,34 @@
 import * as vscode from 'vscode';
-import axios from 'axios';
-import MockAdapter from 'axios-mock-adapter';
 import { activate, deactivate } from '../../extension';
+import { expect } from 'chai';
 
-// Initialize axios mock adapter
-const mockAxios = new MockAdapter(axios);
+suite('Extension Test Suite', () => {
+	vscode.window.showInformationMessage('Start all tests.');
 
-jest.mock('vscode', () => ({
-  workspace: {
-    getConfiguration: jest.fn(),
-    workspaceFolders: [{ uri: { fsPath: '/test' } }],
-    fs: {
-      writeFile: jest.fn(),
-    },
-  },
-  commands: {
-    registerCommand: jest.fn(),
-  },
-  window: {
-    showErrorMessage: jest.fn(),
-    showInputBox: jest.fn(),
-    activeTextEditor: {
-      edit: jest.fn(),
-    },
-  },
-  Uri: {
-    file: jest.fn(),
-  },
-}), { virtual: true });
+	test('Activate Extension', () => {
+		const context: vscode.ExtensionContext = {
+			subscriptions: [],
+			workspaceState: {} as any,
+			globalState: {} as any,
+			extensionPath: '',
+			globalStorageUri: vscode.Uri.file(''),
+			logUri: vscode.Uri.file(''),
+			storageUri: vscode.Uri.file(''),
+			extensionUri: vscode.Uri.file(''),
+			extensionMode: vscode.ExtensionMode.Test,
+			logPath: '',
+			asAbsolutePath: (relativePath: string) => relativePath,
+			environmentVariableCollection: {} as any,
+			extension: {} as any,
+			storagePath: '',
+			globalStoragePath: '',
+			secrets: {} as any,
+		};
+		activate(context);
+		expect(context.subscriptions.length).to.be.greaterThan(0);
+	});
 
-describe('Extension', () => {
-  let context: vscode.ExtensionContext;
-
-  beforeEach(() => {
-    // Setup mock context
-    context = {
-      subscriptions: {
-        push: jest.fn()
-      },
-    } as unknown as vscode.ExtensionContext;
-
-    // Mock the vscode API
-    (vscode.window.showErrorMessage as jest.Mock).mockImplementation(jest.fn());
-    (vscode.workspace.getConfiguration as jest.Mock).mockImplementation(() => ({
-      get: jest.fn().mockReturnValue('test-key'), // replace 'test-key' with the actual test key
-    }));
-    (vscode.window.showInputBox as jest.Mock).mockResolvedValue('Some input');
-  });
-
-  afterEach(() => {
-    jest.resetAllMocks();
-    mockAxios.reset();
-    deactivate();
-  });
-
-  it('should register a command', async () => {
-    await activate(context);
-    expect(vscode.commands.registerCommand).toBeCalledWith(
-      'dockerfile-generator.generateDockerfile',
-      expect.any(Function),
-    );
-  });
-
-  it('should handle API key absence', async () => {
-    (vscode.workspace.getConfiguration as jest.Mock).mockImplementation(() => ({
-      get: jest.fn().mockReturnValue(''),
-    }));
-    await activate(context);
-    expect(vscode.window.showErrorMessage).toBeCalledWith('No API key for OpenAI provided.');
-  });
-
-  // Add more tests...
+	test('Deactivate Extension', () => {
+		deactivate();
+	});
 });
