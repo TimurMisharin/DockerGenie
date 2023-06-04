@@ -1,14 +1,33 @@
 import * as vscode from 'vscode';
 import axios from 'axios';
-import MockAdapter from 'axios-adapter';
+import MockAdapter from 'axios-mock-adapter';
 import { activate, deactivate } from '../../extension';
-import { ChatGptResponse } from '../../interfaces/chatGptResonse';
 
 // Initialize axios mock adapter
 const mockAxios = new MockAdapter(axios);
 
-// Mock vscode API
-jest.mock('vscode');
+jest.mock('vscode', () => ({
+  workspace: {
+    getConfiguration: jest.fn(),
+    workspaceFolders: [{ uri: { fsPath: '/test' } }],
+    fs: {
+      writeFile: jest.fn(),
+    },
+  },
+  commands: {
+    registerCommand: jest.fn(),
+  },
+  window: {
+    showErrorMessage: jest.fn(),
+    showInputBox: jest.fn(),
+    activeTextEditor: {
+      edit: jest.fn(),
+    },
+  },
+  Uri: {
+    file: jest.fn(),
+  },
+}), { virtual: true });
 
 describe('Extension', () => {
   let context: vscode.ExtensionContext;
@@ -16,26 +35,17 @@ describe('Extension', () => {
   beforeEach(() => {
     // Setup mock context
     context = {
-      // Fill in the necessary methods with mock implementations
-      // For example, the following is a mock implementation for the subscriptions.push method
       subscriptions: {
         push: jest.fn()
       },
-      // Add other methods as required
-    };
+    } as unknown as vscode.ExtensionContext;
 
     // Mock the vscode API
-    vscode.window.showErrorMessage = jest.fn();
-    vscode.workspace.getConfiguration = jest.fn().mockReturnValue({
-      get: jest.fn().mockReturnValue('test-key') // replace 'test-key' with the actual test key
-    });
-    vscode.workspace.workspaceFolders = [{ uri: { fsPath: '/test' } }];
-
-    // Setup mock axios response
-    const mockResponse: ChatGptResponse = {
-      // Fill in the mock response details
-    };
-    mockAxios.onPost("https://api.openai.com/v1/chat/completions").reply(200, mockResponse);
+    (vscode.window.showErrorMessage as jest.Mock).mockImplementation(jest.fn());
+    (vscode.workspace.getConfiguration as jest.Mock).mockImplementation(() => ({
+      get: jest.fn().mockReturnValue('test-key'), // replace 'test-key' with the actual test key
+    }));
+    (vscode.window.showInputBox as jest.Mock).mockResolvedValue('Some input');
   });
 
   afterEach(() => {
@@ -53,9 +63,9 @@ describe('Extension', () => {
   });
 
   it('should handle API key absence', async () => {
-    vscode.workspace.getConfiguration = jest.fn().mockReturnValue({
-      get: jest.fn().mockReturnValue('')
-    });
+    (vscode.workspace.getConfiguration as jest.Mock).mockImplementation(() => ({
+      get: jest.fn().mockReturnValue(''),
+    }));
     await activate(context);
     expect(vscode.window.showErrorMessage).toBeCalledWith('No API key for OpenAI provided.');
   });
