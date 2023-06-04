@@ -1,7 +1,7 @@
 
 # DockerGenie: Dockerfile Generator VSCode Extension
 
-![DockerGenie Logo](https://raw.githubusercontent.com/TimurMisharin/DockerGenie/main/src/images/icon.png)
+![DockerGenie Logo](https://raw.githubusercontent.com/TimurMisharin/DockerGenie/main/images/icon.png)
 
 DockerGenie is a Visual Studio Code extension that leverages the power of OpenAI's GPT-3.5-turbo to automatically generate Dockerfiles. This AI-powered tool simplifies the process of Dockerizing your applications.
 
