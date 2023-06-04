@@ -3,8 +3,7 @@
   "displayName": "DockerGenie",
   "description": "An extension to auto-generate Dockerfiles by ChatGPT",
   "version": "0.0.1",
-  "icon": "src/images/icon.png",
-  "publisher": "Timur Misharin",
+  "publisher": "TimurMisharin",
   "repository": {
     "type" : "git",
     "url" : "https://github.com/TimurMisharin/DockerGenie.git"
